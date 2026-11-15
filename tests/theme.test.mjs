@@ -1,13 +1,16 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { getTheme, setTheme, toggleTheme, THEME_STORAGE_KEY } from '../src/js/theme.js';
+import { getTheme, setTheme, toggleTheme, THEME_STORAGE_KEY, bindThemeToggle, updateAllThemeToggles, getThemeToggleElements } from '../src/js/theme.js';
 
 describe('Kost Shukoh - Theme Manager (Dark & Light Mode)', () => {
   // Mock mockStorage
   let storageMap = {};
+  let mockElements = [];
 
   beforeEach(() => {
     storageMap = {};
+    mockElements = [];
+
     globalThis.localStorage = {
       getItem: (key) => storageMap[key] || null,
       setItem: (key, val) => { storageMap[key] = String(val); },
@@ -23,7 +26,7 @@ describe('Kost Shukoh - Theme Manager (Dark & Light Mode)', () => {
           contains(c) { return this.classes.has(c); }
         }
       },
-      querySelectorAll: () => []
+      querySelectorAll: (sel) => mockElements
     };
 
     globalThis.window = {
@@ -58,5 +61,36 @@ describe('Kost Shukoh - Theme Manager (Dark & Light Mode)', () => {
     assert.equal(t2, 'light');
     assert.equal(getTheme(), 'light');
     assert.ok(!document.documentElement.classList.contains('dark'));
+  });
+
+  test('4. bindThemeToggle and updateAllThemeToggles update innerHTML and attributes', () => {
+    let clickHandler = null;
+    const btn = {
+      innerHTML: '',
+      attributes: {},
+      dataset: {},
+      setAttribute(k, v) { this.attributes[k] = v; },
+      getAttribute(k) { return this.attributes[k]; },
+      addEventListener(evt, cb) {
+        if (evt === 'click') clickHandler = cb;
+      }
+    };
+    mockElements = [btn];
+
+    setTheme('light');
+    bindThemeToggle(btn);
+
+    assert.equal(btn.getAttribute('data-theme-toggle'), 'true');
+    assert.ok(btn.innerHTML.includes('svg'));
+    assert.ok(btn.getAttribute('title').includes('Dark Mode'));
+
+    // Toggle theme
+    setTheme('dark');
+    assert.ok(btn.innerHTML.includes('text-amber-500'));
+    assert.ok(btn.getAttribute('title').includes('Light Mode'));
+
+    // Trigger click
+    clickHandler({ preventDefault: () => {} });
+    assert.equal(getTheme(), 'light');
   });
 });

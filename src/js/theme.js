@@ -68,11 +68,20 @@ export function toggleTheme() {
 }
 
 /**
+ * Helper to query all theme toggle buttons across the page
+ */
+export function getThemeToggleElements() {
+  if (typeof document === 'undefined') return [];
+  const list = document.querySelectorAll('[data-theme-toggle], #theme-toggle, .theme-toggle-btn');
+  return Array.from(list);
+}
+
+/**
  * SVG Icons for Sun and Moon
  */
 export const ICONS = {
-  sun: `<svg class="w-5 h-5 text-amber-400 transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
-  moon: `<svg class="w-5 h-5 text-slate-600 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`
+  sun: `<svg class="w-5 h-5 text-amber-500 transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
+  moon: `<svg class="w-5 h-5 text-slate-700 dark:text-slate-300 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`
 };
 
 /**
@@ -80,10 +89,10 @@ export const ICONS = {
  */
 export function updateAllThemeToggles(theme) {
   if (typeof document === 'undefined') return;
-  const toggles = document.querySelectorAll('[data-theme-toggle]');
+  const toggles = getThemeToggleElements();
   toggles.forEach(btn => {
     btn.innerHTML = theme === 'dark' ? ICONS.sun : ICONS.moon;
-    btn.setAttribute('title', theme === 'dark' ? 'Beralih ke Tema Terang' : 'Beralih ke Tema Gelap');
+    btn.setAttribute('title', theme === 'dark' ? 'Beralih ke Tema Terang (Light Mode)' : 'Beralih ke Tema Gelap (Dark Mode)');
     btn.setAttribute('aria-label', theme === 'dark' ? 'Beralih ke Tema Terang' : 'Beralih ke Tema Gelap');
   });
 }
@@ -92,11 +101,14 @@ export function updateAllThemeToggles(theme) {
  * Bind click listener to a toggle element
  */
 export function bindThemeToggle(element) {
-  if (!element) return;
+  if (!element || element.dataset?.kmsBound === 'true') return;
+  if (element.dataset) {
+    element.dataset.kmsBound = 'true';
+  }
   element.setAttribute('data-theme-toggle', 'true');
   const current = getTheme();
   element.innerHTML = current === 'dark' ? ICONS.sun : ICONS.moon;
-  element.setAttribute('title', current === 'dark' ? 'Beralih ke Tema Terang' : 'Beralih ke Tema Gelap');
+  element.setAttribute('title', current === 'dark' ? 'Beralih ke Tema Terang (Light Mode)' : 'Beralih ke Tema Gelap (Dark Mode)');
   element.setAttribute('aria-label', current === 'dark' ? 'Beralih ke Tema Terang' : 'Beralih ke Tema Gelap');
 
   element.addEventListener('click', (e) => {
@@ -113,7 +125,7 @@ export function initTheme() {
   setTheme(current);
 
   if (typeof document !== 'undefined') {
-    const buttons = document.querySelectorAll('[data-theme-toggle]');
+    const buttons = getThemeToggleElements();
     buttons.forEach(btn => bindThemeToggle(btn));
   }
 
