@@ -6,20 +6,34 @@
   <title>Detail Kamar — Kost Shukoh</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563EB'><path d='M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z'/></svg>">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('kms_theme');
+      if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
 </head>
-<body class="bg-surface-canvas text-slate-800 min-h-screen flex flex-col">
+<body class="bg-surface-canvas text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
   <!-- HEADER -->
-  <header class="bg-white border-b border-slate-200">
+  <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
     <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="../index.html" class="flex items-center gap-2">
         <div class="w-8 h-8 rounded-lg bg-brand-900 text-white flex items-center justify-center font-bold text-sm">KS</div>
-        <span class="font-bold text-slate-900 text-base">Kost Shukoh</span>
+        <span class="font-bold text-slate-900 dark:text-white text-base">Kost Shukoh</span>
       </a>
-      <a href="../index.html" class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Kembali ke Daftar Kamar
-      </a>
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Ganti Tema">
+          <!-- Populated by JS -->
+        </button>
+        <a href="../index.html" class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Kembali ke Daftar Kamar
+        </a>
+      </div>
     </div>
   </header>
 
@@ -27,40 +41,40 @@
     <div class="max-w-4xl mx-auto space-y-8">
 
       <!-- ROOM DETAILS CONTAINER -->
-      <div id="room-detail-container" class="bg-white rounded-2xl border border-slate-200 shadow-card overflow-hidden">
-        <div class="h-80 sm:h-96 w-full relative bg-slate-100">
+      <div id="room-detail-container" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-card dark:shadow-none overflow-hidden">
+        <div class="h-80 sm:h-96 w-full relative bg-slate-100 dark:bg-slate-800">
           <img id="detail-photo" src="" alt="Foto Kamar" class="w-full h-full object-cover">
           <div class="absolute top-4 left-4" id="detail-badge"></div>
           <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-xl font-semibold" id="detail-floor"></div>
         </div>
 
         <div class="p-6 sm:p-8 space-y-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <span class="text-xs font-semibold text-brand-600 uppercase tracking-wider block mb-1" id="detail-type">-</span>
-              <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900" id="detail-code">Kamar</h1>
-              <p class="text-xs text-slate-500 mt-1" id="detail-capacity">-</p>
+              <span class="text-xs font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-wider block mb-1" id="detail-type">-</span>
+              <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white" id="detail-code">Kamar</h1>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" id="detail-capacity">-</p>
             </div>
             <div class="text-left sm:text-right">
               <span class="text-xs text-slate-400 block font-medium">Tarif Sewa Bulanan</span>
-              <span class="text-2xl font-extrabold text-brand-600" id="detail-price">Rp 0</span>
+              <span class="text-2xl font-extrabold text-brand-600 dark:text-brand-400" id="detail-price">Rp 0</span>
             </div>
           </div>
 
           <div>
-            <h3 class="font-bold text-slate-900 text-sm mb-2">Deskripsi Kamar</h3>
-            <p class="text-xs text-slate-600 leading-relaxed" id="detail-desc">-</p>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm mb-2">Deskripsi Kamar</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" id="detail-desc">-</p>
           </div>
 
           <div>
-            <h3 class="font-bold text-slate-900 text-sm mb-3">Fasilitas yang Termasuk di Kamar</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm mb-3">Fasilitas yang Termasuk di Kamar</h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="detail-amenities">
               <!-- Rendered by JS -->
             </div>
           </div>
 
-          <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span class="text-xs text-slate-500">Unit siap huni dan telah disterilisasi sebelum serah terima kunci.</span>
+          <div class="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span class="text-xs text-slate-500 dark:text-slate-400">Unit siap huni dan telah disterilisasi sebelum serah terima kunci.</span>
             <a id="btn-book-this-room" href="./booking.html" class="btn-primary text-sm px-6 py-3 w-full sm:w-auto text-center">
               Pesan Kamar Ini Sekarang
             </a>
@@ -74,6 +88,10 @@
   <script type="module">
     import { api } from '../src/js/api.js';
     import { formatRupiah, getStatusBadge } from '../src/js/ui.js';
+    import { initTheme } from '../src/js/theme.js';
+
+    // Inisialisasi Tema Gelap/Terang
+    initTheme();
 
     async function loadDetail() {
       const params = new URLSearchParams(window.location.search);

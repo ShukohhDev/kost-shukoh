@@ -72,9 +72,9 @@ export function showConfirmModal({ title, message, confirmText = 'Ya, Lanjutkan'
   modal.id = modalId;
   modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in';
   modal.innerHTML = `
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-modal border border-slate-200 transform transition-all">
-      <h3 class="text-lg font-bold text-slate-900 mb-2">${title}</h3>
-      <p class="text-sm text-slate-600 mb-6 leading-relaxed">${message}</p>
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-modal border border-slate-200 dark:border-slate-800 transform transition-all">
+      <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">${title}</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">${message}</p>
       <div class="flex items-center justify-end gap-3">
         <button id="modal-cancel-btn" class="btn-secondary px-4 py-2">Batal</button>
         <button id="modal-confirm-btn" class="${confirmClass} px-4 py-2">${confirmText}</button>
