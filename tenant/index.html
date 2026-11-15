@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Penghuni — Kost Shukoh</title>
+  <link rel="stylesheet" href="../public/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563EB'><path d='M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z'/></svg>">
+</head>
+<body class="bg-surface-canvas text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- TOP HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 backdrop-blur-md bg-white/90">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-brand-900 text-white flex items-center justify-center font-bold text-sm">KS</div>
+        <div>
+          <span class="font-bold text-slate-900 text-sm block leading-tight">Kost Shukoh</span>
+          <span class="text-[11px] text-brand-600 font-semibold block" id="tenant-room-badge">Kamar A-01</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right hidden sm:block">
+          <span id="tenant-name" class="font-bold text-xs text-slate-800 block">Fajar Nugraha</span>
+          <span class="text-[10px] text-slate-400 block">Penghuni Aktif</span>
+        </div>
+        <button id="btn-tenant-logout" class="btn-secondary text-xs px-3 py-1.5 text-rose-600 hover:bg-rose-50 border-rose-200" title="Keluar">
+          Keluar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-8 space-y-6">
+
+    <!-- WELCOME CARD -->
+    <div class="card-premium p-6 bg-gradient-to-r from-brand-900 to-slate-900 text-white border-none shadow-elevated">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs text-blue-300 font-semibold uppercase tracking-wider block mb-1">Selamat Datang</span>
+          <h2 class="text-xl sm:text-2xl font-bold" id="welcome-text">Halo, Fajar Nugraha</h2>
+          <p class="text-xs text-slate-300 mt-1 max-w-md">
+            Masa sewa kamar Anda aktif hingga <span class="font-bold text-white" id="tenant-lease-end">15 Desember 2026</span>.
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 shrink-0 text-center">
+          <span class="text-[10px] text-blue-200 block uppercase font-bold">Kamar Anda</span>
+          <span class="text-2xl font-extrabold text-white" id="tenant-room-code">A-01</span>
+          <span class="text-[10px] text-emerald-400 block font-semibold mt-0.5">&bull; Status Sewa Aktif</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION TAGIHAN & PEMBAYARAN -->
+    <div class="card-premium p-6 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">Tagihan Sewa Bulan Ini</h3>
+          <p class="text-xs text-slate-500">Periksa detail kewajiban pembayaran dan unggah bukti transfer.</p>
+        </div>
+        <div id="current-bill-badge">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <div id="bill-detail-box" class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+          <div>
+            <span class="text-slate-400 block mb-0.5">Nomor Tagihan</span>
+            <span class="font-mono font-bold text-slate-900" id="bill-number">INV-XXXX</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block mb-0.5">Periode Sewa</span>
+            <span class="font-medium text-slate-700" id="bill-period">-</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block mb-0.5">Jatuh Tempo</span>
+            <span class="font-medium text-slate-700" id="bill-due-date">-</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block mb-0.5">Total Tagihan</span>
+            <span class="text-base font-extrabold text-brand-600" id="bill-amount">Rp 0</span>
+          </div>
+        </div>
+
+        <div id="bill-action-area" class="pt-3 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="text-xs text-slate-600">
+            <span class="font-bold block text-slate-800">Rekening Resmi Pembayaran:</span>
+            <span>Bank BCA: <strong>123-456-7890</strong> a.n. Pengelola Kost Shukoh</span>
+          </div>
+          <button id="btn-pay-bill" class="btn-primary text-xs px-5 py-2.5 shrink-0">
+            Unggah Bukti Transfer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION KELUHAN / LAPOR KERUSAKAN -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+      
+      <!-- FORM KELUHAN -->
+      <div class="md:col-span-5 card-premium p-6 space-y-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-sm">Lapor Kendala / Kerusakan</h3>
+          <p class="text-xs text-slate-500 mt-0.5">Staf teknisi kami akan segera menindaklanjuti laporan Anda.</p>
+        </div>
+
+        <form id="tenant-complaint-form" class="space-y-3">
+          <div>
+            <label class="input-label" for="complaint-cat">Kategori Kendala</label>
+            <select id="complaint-cat" class="input-field" required>
+              <option value="AC / Pendingin">AC / Pendingin Ruangan</option>
+              <option value="Kran Air / Pipa">Kran Air / Pipa / Saluran</option>
+              <option value="Listrik / Lampu">Listrik / Lampu Mati</option>
+              <option value="Kamar Mandi">Kamar Mandi / Kloset</option>
+              <option value="Fasilitas Bersama">Fasilitas Bersama (Dapur/Wifi)</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="input-label" for="complaint-title">Judul Laporan</label>
+            <input type="text" id="complaint-title" placeholder="Contoh: AC kurang dingin" required class="input-field">
+          </div>
+
+          <div>
+            <label class="input-label" for="complaint-desc">Deskripsi Rinci</label>
+            <textarea id="complaint-desc" rows="3" placeholder="Jelaskan detail kendala..." required class="input-field"></textarea>
+          </div>
+
+          <button type="submit" id="btn-submit-complaint" class="btn-primary w-full py-2.5 text-xs">
+            Kirim Laporan Kerusakan
+          </button>
+        </form>
+      </div>
+
+      <!-- RIWAYAT TIKET KELUHAN -->
+      <div class="md:col-span-7 card-premium p-6 space-y-4">
+        <h3 class="font-bold text-slate-900 text-sm">Riwayat Laporan Anda</h3>
+        <div id="tenant-complaints-list" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PENGUMUMAN PENGELOLA -->
+    <div class="card-premium p-6 space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="p-1.5 rounded-lg bg-blue-50 text-blue-600">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+        </span>
+        <h3 class="font-bold text-slate-900 text-sm">Pemberitahuan dari Pengelola</h3>
+      </div>
+      <div id="tenant-announcements-list" class="space-y-3">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL UPLOAD BUKTI TRANSFER -->
+  <div id="upload-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-modal border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h4 class="font-bold text-slate-900 text-sm">Unggah Bukti Transfer</h4>
+        <button id="btn-close-upload" class="text-slate-400 hover:text-slate-600">&times;</button>
+      </div>
+
+      <form id="upload-payment-form" class="space-y-4">
+        <div>
+          <label class="input-label" for="pay-amount">Nominal yang Ditransfer (Rp)</label>
+          <input type="number" id="pay-amount" required class="input-field" min="10000">
+        </div>
+
+        <div>
+          <label class="input-label" for="pay-method">Metode Pembayaran</label>
+          <select id="pay-method" class="input-field">
+            <option value="TRANSFER">Transfer Antar Bank (BCA / Mandiri / BNI / BRI)</option>
+            <option value="QRIS">QRIS / E-Wallet (GoPay / OVO / Dana)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="input-label" for="pay-date">Tanggal Transfer</label>
+          <input type="date" id="pay-date" required class="input-field">
+        </div>
+
+        <div>
+          <label class="input-label">URL / File Foto Struk Bukti</label>
+          <input type="text" id="pay-proof-url" placeholder="https://... atau gunakan struk demo" class="input-field" value="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80">
+          <span class="text-[10px] text-slate-400">Bukti disimpan di folder privat terenkripsi.</span>
+        </div>
+
+        <button type="submit" class="btn-primary w-full py-2.5 text-xs">
+          Kirim Bukti Pembayaran
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { api } from '../src/js/api.js';
+    import { auth } from '../src/js/auth.js';
+    import { formatRupiah, formatTanggal, getStatusBadge, showToast, showConfirmModal } from '../src/js/ui.js';
+
+    // Guard page
+    if (!auth.guard(['TENANT'])) {
+      // stopped
+    }
+
+    const user = auth.getUser() || { name: 'Fajar Nugraha', room_code: 'A-01' };
+    document.getElementById('tenant-name').textContent = user.name;
+    document.getElementById('welcome-text').textContent = `Halo, ${user.name}`;
+    document.getElementById('tenant-room-badge').textContent = `Kamar ${user.room_code || 'A-01'}`;
+    document.getElementById('tenant-room-code').textContent = user.room_code || 'A-01';
+
+    let currentBill = null;
+
+    async function loadTenantData() {
+      const [billsRes, complaintsRes, annRes] = await Promise.all([
+        api.get('/bills'),
+        api.get('/complaints'),
+        api.get('/announcements')
+      ]);
+
+      const bills = billsRes.data || [];
+      const complaints = complaintsRes.data || [];
+      const announcements = annRes.data || [];
+
+      // Find tenant bill
+      currentBill = bills.find(b => b.room_code === user.room_code) || bills[0];
+      if (currentBill) {
+        document.getElementById('bill-number').textContent = currentBill.bill_number;
+        document.getElementById('bill-period').textContent = `${formatTanggal(currentBill.period_start)} - ${formatTanggal(currentBill.period_end)}`;
+        document.getElementById('bill-due-date').textContent = formatTanggal(currentBill.due_date);
+        document.getElementById('bill-amount').textContent = formatRupiah(currentBill.total_amount);
+        document.getElementById('current-bill-badge').innerHTML = getStatusBadge(currentBill.status, 'bill');
+        document.getElementById('pay-amount').value = currentBill.total_amount;
+
+        const payBtn = document.getElementById('btn-pay-bill');
+        if (currentBill.status === 'PAID') {
+          payBtn.textContent = 'Sudah Lunas';
+          payBtn.disabled = true;
+          payBtn.className = 'btn-secondary text-xs px-5 py-2.5 shrink-0 opacity-60 cursor-not-allowed text-emerald-700 bg-emerald-50 border-emerald-200';
+        } else {
+          payBtn.textContent = 'Unggah Bukti Transfer';
+          payBtn.disabled = false;
+        }
+      }
+
+      // Render Complaints
+      const myComplaints = complaints.filter(c => c.room_code === user.room_code || c.tenant_id === user.id);
+      const compContainer = document.getElementById('tenant-complaints-list');
+      if (myComplaints.length === 0) {
+        compContainer.innerHTML = '<p class="text-xs text-slate-400 py-3">Belum ada laporan keluhan aktif.</p>';
+      } else {
+        compContainer.innerHTML = myComplaints.map(c => `
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-xs text-slate-800">${c.ticket_code}</span>
+              ${getStatusBadge(c.status, 'complaint')}
+            </div>
+            <h5 class="font-bold text-xs text-slate-900">${c.title}</h5>
+            <p class="text-[11px] text-slate-600">${c.description}</p>
+            ${c.admin_note ? `
+              <div class="mt-2 p-2 rounded-lg bg-blue-50 border border-blue-200/60 text-[11px] text-blue-900">
+                <strong>Catatan Pengelola:</strong> ${c.admin_note}
+              </div>
+            ` : ''}
+          </div>
+        `).join('');
+      }
+
+      // Render Announcements
+      const annContainer = document.getElementById('tenant-announcements-list');
+      annContainer.innerHTML = announcements.map(a => `
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1">
+          <div class="flex items-center justify-between">
+            <h5 class="font-bold text-xs text-slate-900">${a.title}</h5>
+            <span class="text-[10px] text-slate-400">${formatTanggal(a.published_at)}</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">${a.content}</p>
+        </div>
+      `).join('');
+    }
+
+    // Modal Payment Upload Handlers
+    const uploadModal = document.getElementById('upload-modal');
+    document.getElementById('btn-pay-bill').addEventListener('click', () => {
+      document.getElementById('pay-date').value = new Date().toISOString().substring(0, 10);
+      uploadModal.classList.remove('hidden');
+    });
+
+    document.getElementById('btn-close-upload').addEventListener('click', () => {
+      uploadModal.classList.add('hidden');
+    });
+
+    document.getElementById('upload-payment-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!currentBill) return;
+
+      const payload = {
+        bill_id: currentBill.id,
+        amount: Number(document.getElementById('pay-amount').value),
+        payment_method: document.getElementById('pay-method').value,
+        paid_date: document.getElementById('pay-date').value,
+        proof_file_path: document.getElementById('pay-proof-url').value.trim()
+      };
+
+      try {
+        await api.post('/payments', payload);
+        uploadModal.classList.add('hidden');
+        showToast('Bukti transfer berhasil dikirim! Menunggu verifikasi pengelola.');
+        loadTenantData();
+      } catch (err) {
+        showToast(err.message, 'danger');
+      }
+    });
+
+    // Complaint Form Handler
+    document.getElementById('tenant-complaint-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        tenant_id: user.id || 1,
+        tenant_name: user.name || 'Fajar Nugraha',
+        room_code: user.room_code || 'A-01',
+        category: document.getElementById('complaint-cat').value,
+        title: document.getElementById('complaint-title').value.trim(),
+        description: document.getElementById('complaint-desc').value.trim()
+      };
+
+      try {
+        await api.post('/complaints', payload);
+        document.getElementById('complaint-title').value = '';
+        document.getElementById('complaint-desc').value = '';
+        showToast('Laporan keluhan berhasil dikirim ke pengelola!');
+        loadTenantData();
+      } catch (err) {
+        showToast(err.message, 'danger');
+      }
+    });
+
+    document.getElementById('btn-tenant-logout').addEventListener('click', () => {
+      showConfirmModal({
+        title: 'Konfirmasi Logout',
+        message: 'Apakah Anda yakin ingin keluar dari Portal Penghuni Kost Shukoh?',
+        confirmText: 'Ya, Keluar',
+        confirmClass: 'btn-danger',
+        onConfirm: () => {
+          auth.logout();
+        }
+      });
+    });
+
+    loadTenantData();
+  </script>
+</body>
+</html>
