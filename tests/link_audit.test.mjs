@@ -69,4 +69,25 @@ describe('Kost Shukoh - Link & Asset Path Integrity Audit', () => {
       }
     }
   });
+
+  test('All local image assets referenced in HTML files exist on disk', () => {
+    for (const file of htmlFiles) {
+      const fullPath = path.join(rootDir, file);
+      const content = fs.readFileSync(fullPath, 'utf8');
+      const dir = path.dirname(fullPath);
+
+      const imgMatches = [...content.matchAll(/<img[^>]+src=["']([^"']+)["']/g)];
+      for (const match of imgMatches) {
+        const src = match[1];
+        if (src.startsWith('http') || src.startsWith('data:') || src.startsWith('${')) {
+          continue;
+        }
+        const cleanSrc = src.split('?')[0].split('#')[0];
+        if (!cleanSrc) continue;
+
+        const resolved = path.resolve(dir, cleanSrc);
+        assert.ok(fs.existsSync(resolved), `In ${file}: Broken img src "${src}" pointing to non-existent ${resolved}`);
+      }
+    }
+  });
 });

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,10 @@
   <meta http-equiv="Expires" content="0">
   <title>Login Portal — Kost Shukoh</title>
   <link rel="stylesheet" href="./css/style.css?v=3">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563EB'><path d='M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z'/></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563EB'><path d='M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z'/></svg>">
   <script>
-    (function() {
+    (function () {
       const saved = localStorage.getItem('kms_theme');
       if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -18,7 +20,9 @@
     })();
   </script>
 </head>
-<body class="bg-surface-canvas text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+
+<body
+  class="bg-surface-canvas text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
 
   <!-- TOP THEME TOGGLE -->
   <div class="absolute top-4 right-4">
@@ -32,39 +36,50 @@
     <!-- LOGO -->
     <div class="text-center">
       <a href="../index.html" class="inline-flex items-center gap-2.5 mb-2">
-        <div class="w-12 h-12 rounded-2xl bg-brand-900 text-white flex items-center justify-center font-bold text-xl shadow-md">
+        <div
+          class="w-12 h-12 rounded-2xl bg-brand-900 text-white flex items-center justify-center font-bold text-xl shadow-md">
           KS
         </div>
       </a>
       <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Portal Akses Kost Shukoh</h2>
-      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Silakan masuk menggunakan email dan password terdaftar Anda.</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Silakan masuk menggunakan email dan password terdaftar
+        Anda.</p>
     </div>
 
     <!-- LOGIN CARD -->
-    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-card p-6 sm:p-8">
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-card p-6 sm:p-8">
 
       <form id="login-form" class="space-y-4">
         <div>
           <label class="input-label" for="login-email">Email Terdaftar</label>
-          <input type="email" id="login-email" required placeholder="nama@email.com" class="input-field" autocomplete="email">
+          <input type="email" id="login-email" required placeholder="nama@email.com" class="input-field"
+            autocomplete="email">
         </div>
 
         <div>
           <div class="flex items-center justify-between mb-1.5">
             <label class="input-label mb-0" for="login-password">Password</label>
-            <a href="#" class="text-[11px] font-semibold text-brand-600 dark:text-brand-400 hover:underline">Lupa password?</a>
+            <a href="#" class="text-[11px] font-semibold text-brand-600 dark:text-brand-400 hover:underline">Lupa
+              password?</a>
           </div>
           <div class="relative">
-            <input type="password" id="login-password" required placeholder="Masukkan password Anda" class="input-field pr-10" autocomplete="current-password">
-            <button type="button" id="btn-toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus:outline-none transition-colors" title="Lihat password">
+            <input type="password" id="login-password" required placeholder="Masukkan password Anda"
+              class="input-field pr-10" autocomplete="current-password">
+            <button type="button" id="btn-toggle-password"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus:outline-none transition-colors"
+              title="Lihat password">
               <!-- Eye Icon (Visible) -->
               <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
               <!-- Eye Off Icon (Hidden) -->
               <svg id="eye-off-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
               </svg>
             </button>
           </div>
@@ -79,7 +94,8 @@
 
     <!-- BACK TO HOME -->
     <div class="text-center">
-      <a href="../index.html" class="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition">
+      <a href="../index.html"
+        class="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition">
         &larr; Kembali ke Website Publik Kost Shukoh
       </a>
     </div>
@@ -124,7 +140,7 @@
       try {
         const user = await auth.login(emailInput.value.trim(), passInput.value);
         showToast('Login berhasil! Mengalihkan ke portal...', 'success');
-        
+
         setTimeout(() => {
           if (user.role === 'ADMIN') {
             window.location.href = '../admin/index.html';
@@ -140,4 +156,5 @@
     });
   </script>
 </body>
+
 </html>
