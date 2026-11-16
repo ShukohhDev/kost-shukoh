@@ -65,11 +65,11 @@
     <section id="beranda" class="relative overflow-hidden pt-12 pb-20 border-b border-slate-200/60 dark:border-slate-800 transition-colors duration-200">
       <!-- Real Building Background & Adaptive Overlays -->
       <div class="absolute inset-0 z-0">
-        <img src="./public/images/kost-building.jpg" alt="Gedung Kost Shukoh" class="w-full h-full object-cover object-center scale-105 filter blur-[0.5px]">
-        <!-- Horizontal Contrast Mask: Protects headline & description legibility -->
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/60 dark:from-slate-950/95 dark:via-slate-950/85 dark:to-slate-900/60 backdrop-blur-[1px]"></div>
+        <img src="./public/images/kost-building.jpg" alt="Gedung Kost Shukoh" class="w-full h-full object-cover object-center lg:object-[center_35%]">
+        <!-- Horizontal Contrast Mask: Solid protection on the left for text, completely clear on the right for building visibility -->
+        <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent"></div>
         <!-- Vertical Transition Mask: Fades smoothly to clean canvas below -->
-        <div class="absolute inset-0 bg-gradient-to-t from-surface-canvas via-transparent to-white/40 dark:from-slate-950 dark:via-transparent dark:to-slate-950/40"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-canvas via-surface-canvas/30 to-transparent dark:from-slate-950 dark:via-slate-950/30 dark:to-transparent"></div>
       </div>
 
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
